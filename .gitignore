@@ -1,3 +1,9 @@
+# Data
+data/config.json
+data/creds.json
+data/players.db
+data/BFPlayerList.json
+
 # Logs
 logs
 *.log
