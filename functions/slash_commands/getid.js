@@ -15,5 +15,21 @@ module.exports = async (interaction, params, config) => {
     embed.addField("Current Name", `\`${name_with_case}\``, true)
     embed.addField("Origin ID", `\`${id.toString()}\``, true)
     embed.setThumbnail(pfp)
+
+    let previousNamesList = require('./../../data/BFPlayerList.json')
+    let previousNames = previousNamesList[id.toString()]
+    if(previousNames){
+        embed.addField("Previous Names", `\`${previousNames.join("\`, \`")}\``, false)
+        
+    }
+
+    if(!previousNames?.includes(name_with_case)){
+        if(!previousNames) previousNamesList[id.toString()] = [];
+
+        previousNamesList[id.toString()].push(name_with_case)
+        let fs = require('fs')
+        fs.writeFileSync("./data/BFPlayerList.json", JSON.stringify(previousNamesList, null, 2))
+    }
+
     await interaction.reply({embeds:[embed]})
 }
