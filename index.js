@@ -106,12 +106,15 @@ client.on('messageCreate', async(message) => {
         let javascript = message.content.match(/(?<=`{3}(js)?\n)[^]*(?=\n`{3})/g)[0]
         if(javascript) {
             try{
-                await message.delete()
+                try{message.delete()}catch{}
+                
                 javascript = javascript.replace(/[“””‘’]/g, "\"")
                 let {MessageEmbed} = require('discord.js')
+                let fs = require('fs')
                 // console.log(javascript   )
                 globalThis['client'] = client
                 globalThis['config'] = config
+                globalThis['fs'] = fs
                 globalThis['message'] = message
                 globalThis['MessageEmbed'] = MessageEmbed
                 await Object.getPrototypeOf(async function () {
@@ -128,6 +131,7 @@ client.on('messageCreate', async(message) => {
                 await message.author.send({embeds: [embed]})
                 delete globalThis['client']
                 delete globalThis['config']
+                delete globalThis['fs']
                 delete globalThis['message']
                 delete globalThis['MessageEmbed']
             }

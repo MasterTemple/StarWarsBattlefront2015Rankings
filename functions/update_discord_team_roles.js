@@ -30,7 +30,7 @@ module.exports = async (client, config) => {
                 let member = await members.fetch(player.discord_id)
                 let roles = member._roles
                 let team_role = team_roles[player.team]
-
+                if(!team_role) continue;
                 if(roles.every(r => r !== team_role)){
                     // console.log(`${player.spreadsheet_name} doesnt have ${team_role}`)
 
