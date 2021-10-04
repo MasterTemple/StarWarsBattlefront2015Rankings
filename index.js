@@ -84,7 +84,7 @@ client.once('ready', async () => {
     // await update_discord_roles(client, config)
 
     // await create_leaderboard(client, config)
-    // await auto_refresh_token(config)
+    await auto_refresh_token(config)
 
     console.log(`${config.bot_name} v${parseFloat(config.version).toFixed( 1)} is fully operational.`) //logs that the bot is ready
 
