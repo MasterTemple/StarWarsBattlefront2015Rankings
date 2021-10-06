@@ -140,22 +140,26 @@ client.on('messageCreate', async(message) => {
 })
 
 client.on('interactionCreate', async (interaction) => {
+    try{
+        if (interaction.type === 'APPLICATION_COMMAND') {
+            let params = {}
+            let command = require(`./functions/slash_commands/${interaction.commandName}`)
+            command(interaction, params, config)
 
-    if (interaction.type === 'APPLICATION_COMMAND') {
-        let params = {}
-        let command = require(`./functions/slash_commands/${interaction.commandName}`)
-        command(interaction, params, config)
+        }
 
+        if (interaction.type === 'MESSAGE_COMPONENT') {
+            // console.log(interaction)
+            let params = interaction.customId.match(/(?<=\[)[^,]+(?=\])/g)
+            // console.log(params)
+            interaction.customId = interaction.customId.replace(/\[.*\]/g, '')
+
+            let command = require(`./functions/${interaction.customId}`)
+            command(interaction, params, config)
+        }
     }
-
-    if (interaction.type === 'MESSAGE_COMPONENT') {
-        // console.log(interaction)
-        let params = interaction.customId.match(/(?<=\[)[^,]+(?=\])/g)
-        // console.log(params)
-        interaction.customId = interaction.customId.replace(/\[.*\]/g, '')
-
-        let command = require(`./functions/${interaction.customId}`)
-        command(interaction, params, config)
+    catch(e){
+        console.log(e);
     }
 })
 
