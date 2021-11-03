@@ -9,7 +9,9 @@ module.exports = async function (config){
             method: 'GET',
             withCredentials: true,
             headers: {
-                Cookie: `remid=${config.remid}; sid=${config.sid};`
+                // Cookie: `remid=${config.remid}; sid=${config.sid};`
+                Cookie: `sid=${config.sid};`
+
 
             }
         }).then((res) => {

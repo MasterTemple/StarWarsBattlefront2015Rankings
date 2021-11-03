@@ -29,7 +29,7 @@ module.exports = async (client, config) => {
 
                 }
             }catch{
-                console.log(`The member ${player.spreadsheet_name} is not in Ranked PUGs 2021`)
+                // console.log(`The member ${player.spreadsheet_name} is not in Ranked PUGs 2021`)
             }
         }
 

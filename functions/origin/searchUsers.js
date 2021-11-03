@@ -2,8 +2,8 @@ const getOriginNames = require('./get_origin_names_from_id_list')
 module.exports = async(config, input) => {
   return new Promise(async (resolve, reject) => {
       const axios = require('axios')
-      const my_id = 1010647254402
-      let url = `https://api2.origin.com/xsearch/users?userId=${my_id}&searchTerm=${input}&start=0`
+    //   const my_id = 1010647254402
+      let url = `https://api2.origin.com/xsearch/users?userId=${config.account_id}&searchTerm=${input}&start=0`
 
       await axios({
           url: url,
