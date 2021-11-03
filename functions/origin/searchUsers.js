@@ -12,17 +12,25 @@ module.exports = async(config, input) => {
               authtoken: config.auth_token
           }
       }).then(async(res) => {
-          // console.log(res.data)
-          let ids = res.data.infoList.map(e=>e.friendUserId)
+        //   console.log(res.data)
+
+          let ids = []
+          if(res.data.infoList){
+              ids = res.data.infoList.map(e=>e.friendUserId)
+          }
           ids = ids.slice(0, 15)
+        //   console.log(ids);
+          if(ids.length === 0){
+              resolve(ids)
+          }
           let results = await getOriginNames(config, ids)
-          // console.log(results);
+        //   console.log(results);
           let options = []
           results.forEach(({userId, eaId}) => options.push({name: eaId, value: userId}))
           resolve(options)
 
       }).catch(async (e) => {
-          // // console.log(e)
+          console.log(e)
           // // console.log(e.response.status)
           // if (e.response?.data?.rootCause?.cause === "invalid_token") {
           //     let auto_refresh_token = require('../auto_refresh_token')

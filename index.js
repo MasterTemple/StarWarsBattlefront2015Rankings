@@ -168,6 +168,7 @@ client.on('interactionCreate', async (interaction) => {
         if(interaction.type === "APPLICATION_COMMAND_AUTOCOMPLETE"){
             let input = interaction.options._hoistedOptions[0].value
             if(!input){ return}
+            console.log({input})
             let results = (await searchUsers(config, input))
             if(results === undefined || results?.length === 0) return;
             // results = results.slice(0, 15)
