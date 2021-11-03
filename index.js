@@ -31,6 +31,7 @@ let update_discord_team_roles= require('./functions/update_discord_team_roles')
 let update_gist = require('./functions/update_gist')
 let custom_scripts = require('./functions/custom_scripts')
 let cron = require('node-cron');
+let searchUsers = require('./functions/origin/searchUsers')
 
 cron.schedule('0 0 */3 * * *', async() => {
     await auto_refresh_token(config)
@@ -80,11 +81,11 @@ client.once('ready', async () => {
     // client.application.
     // await ttb()
 
-    await on_startup(client)
+    // await on_startup(client)
     // await update_discord_roles(client, config)
 
     // await create_leaderboard(client, config)
-    // await auto_refresh_token(config)
+    await auto_refresh_token(config)
 
     console.log(`${config.bot_name} v${parseFloat(config.version).toFixed( 1)} is fully operational.`) //logs that the bot is ready
 
@@ -140,6 +141,7 @@ client.on('messageCreate', async(message) => {
 })
 
 client.on('interactionCreate', async (interaction) => {
+    // console.log(interaction)
     try{
         if (interaction.type === 'APPLICATION_COMMAND') {
             let params = {}
@@ -160,6 +162,29 @@ client.on('interactionCreate', async (interaction) => {
     }
     catch(e){
         console.log(e);
+    }
+    try{
+
+        if(interaction.type === "APPLICATION_COMMAND_AUTOCOMPLETE"){
+            let input = interaction.options._hoistedOptions[0].value
+            if(!input){ return}
+            let results = (await searchUsers(config, input))
+            if(results === undefined || results?.length === 0) return;
+            // results = results.slice(0, 15)
+            // let autocompleteOptions = res
+            // results.forEach(({name, id}) => autocompleteOptions.push({name: name, value: id.toString()}))
+
+            // let autocompleteOptions= [
+            //     {
+            //         name: 'Option 1',
+            //         value: 'option1',
+            //     }
+            // ]
+            interaction.respond(results)
+
+        }
+    }catch{
+
     }
 })
 
