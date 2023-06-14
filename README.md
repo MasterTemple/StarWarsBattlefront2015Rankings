@@ -2,8 +2,6 @@
 
 # Origin IDs
 
-I reverse engineered Origin's API
-
 ## Get Name From ID
 
 ![](/imgs/getname.png)
